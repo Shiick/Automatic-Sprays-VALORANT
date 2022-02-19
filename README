@@ -8,5 +8,8 @@ Will only look like a tilesheet, your job to make them into a gif.
 Simply valorant_path to your own installation to the VALORANT paks.
 And don't forget to change input_path and output_path to where you have the repository located.
 
+NOTE: This isn't meant to be great, there might be better ways to do this.
+Feel free to fork it and apply better changes, I'll merge then.
+
 This rely on UModel.
 https://github.com/gildor2/UEViewer
