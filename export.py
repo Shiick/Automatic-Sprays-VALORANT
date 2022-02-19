@@ -3,8 +3,8 @@ import cv2
 import shutil
 from PIL import Image
 
-input_path = R"C:\Users\Shiick\Desktop\AutomaticSprays\ExportOutput\Game\Personalization\Sprays" # MAKE SURE TO CHANGE THOSE FOR WHAT WORKS ON YOUR END
-output_path = R"C:\Users\Shiick\Desktop\AutomaticSprays\Output"
+input_path = R"D:\VALORANT\AutomaticSprays\ExportOutput\Game\Personalization\Sprays" # MAKE SURE TO CHANGE only the part before ExportOutput
+output_path = R"D:\VALORANT\AutomaticSprays\Output"
 valorant_path = "C:\Riot Games\VALORANT\live\ShooterGame\Content\Paks"
 AES = "0x4BE71AF2459CF83899EC9DC2CB60E22AC4B3047E0211034BBABE9D174C069DD6"
 

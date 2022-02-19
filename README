@@ -2,5 +2,11 @@ AUTOMATIC SPRAYS VALORANT
 
 This script simply exports all the sprays inside VALORANT.
 
+Note that animated sprays aren't taken into account. Exported normally.
+Will only look like a tilesheet, your job to make them into a gif.
+
+Simply valorant_path to your own installation to the VALORANT paks.
+And don't forget to change input_path and output_path to where you have the repository located.
+
 This rely on UModel.
 https://github.com/gildor2/UEViewer
