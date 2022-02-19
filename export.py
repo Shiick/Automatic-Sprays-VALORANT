@@ -1,11 +1,12 @@
 import os
 import cv2
 import shutil
-from PIL import Image
 
-input_path = R"D:\VALORANT\AutomaticSprays\ExportOutput\Game\Personalization\Sprays" # MAKE SURE TO CHANGE only the part before ExportOutput
-output_path = R"D:\VALORANT\AutomaticSprays\Output"
-valorant_path = "C:\Riot Games\VALORANT\live\ShooterGame\Content\Paks"
+repo_path = R"D:\VALORANT\AutomaticSprays"
+
+input_path = fR"{repo_path}\ExportOutput\Game\Personalization\Sprays"
+output_path = fR"{repo_path}\Output"
+valorant_path = R"C:\Riot Games\VALORANT\live\ShooterGame\Content\Paks"
 AES = "0x4BE71AF2459CF83899EC9DC2CB60E22AC4B3047E0211034BBABE9D174C069DD6"
 
 def main():
@@ -15,11 +16,11 @@ def main():
 
 def export_files_umodel():
     # THIS WILL EXPORT THE NEEDED FILES
-    os.system("umodel.exe -path=\"" + valorant_path + "\" -aes=\"" + AES + "\" -game=valorant -out=\ExportOutput -export *Personalization/Sprays/*/*")
+    os.system(f'umodel.exe -path="{valorant_path}" -aes={AES} -game=valorant -out=ExportOutput -export *Personalization/Sprays/*')
 
 def export_sprays():
     # LOOP THROUGH ALL FILES IN INPUT_PATH
-    for path, subdirs, files in os.walk(input_path):
+    for path, _, files in os.walk(input_path):
         for name in files:
             file = os.path.join(path, name)
             if (file.endswith("DF.png") and has_aem_texture(file)): # IF SPRAY
@@ -32,7 +33,7 @@ def delete_temp_folder():
     try:
         shutil.rmtree(dir_path)
     except OSError as e:
-        print("Error: %s : %s" % (dir_path, e.strerror))
+        print(f"Error: {dir_path} : {e.strerror}")
 
 def has_aem_texture(path):
     return os.path.exists(path.replace("DF.png", "AEM.png")) # Basically checks if the AEM file exists
@@ -51,31 +52,12 @@ def make_folders(path):
         os.makedirs('\\'.join(folder_list))
 
 def make_spray(path):
-    # READ AEM FILE
-    aem_file = cv2.imread(path.replace("DF.png", "AEM.png"), cv2.IMREAD_UNCHANGED)
-
-    # GET BLUE CHANNEL
-    blue_channel = aem_file[:,:,0]
-
-    new_path = output_path + "\\TEMP\\" + path.replace(input_path, "")
-    mask_file_path = new_path.replace("_DF.png", ".png")
-    # SAVE MASK FILE WITH ONLY THE BLUE CHANNEL
-    cv2.imwrite(mask_file_path, blue_channel)
-
-    # OPEN DF FILE
-    df_file = Image.open(path)
-
-    # CREATE EMPTY IMAGE TO HIDE UNWANTED PART
-    empty = Image.new('RGBA', df_file.size)
-
-    # OPEN MASK FILE
-    mask = Image.open(mask_file_path)
-
-    im = Image.composite(df_file, empty, mask) # COMBINE EVERY LAYER
-
     output = output_path + path.replace(input_path, "")
 
-    im.save(output.replace("_DF", "")) # SAVE FILE
+    bgra = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2BGRA)
+    bgra[:, :, 3] = cv2.imread(path.replace("DF.png", "AEM.png"))[:, :, 0]
+
+    cv2.imwrite(output.replace("_DF", ""), bgra)# , [cv2.IMWRITE_PNG_COMPRESSION, 1])
 
 if __name__ == '__main__':
     main()
