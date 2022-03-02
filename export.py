@@ -21,6 +21,9 @@ def export_files_umodel():
         f'-aes={AES}',
         '-game=valorant',
         '-out=ExportOutput',
+        '-nomesh',
+        '-nostat',
+        '-noanim',
         '-export',
         '/Game/Personalization/Sprays/*/*'])
 
